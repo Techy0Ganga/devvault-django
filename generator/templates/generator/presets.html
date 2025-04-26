@@ -1,0 +1,9 @@
+{% if latest_preset_list %}
+    <ul>
+        {% for presets in latest_preset_list %}
+        <li>{{presets.name}}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p> no presets available </p>
+{% endif %}

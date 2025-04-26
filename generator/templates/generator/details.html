@@ -1,0 +1,13 @@
+
+<h1>{{display_preset.name}}</h1>
+<ul>
+    
+    <li>about : {{display_preset.description}}</li>
+    <li>created_at : {{display_preset.created_at}}</li>
+    <li>gitrepo : {{display_preset.git_repo}}</li>
+</ul>
+
+<h2>languages used in project</h2>
+{% for s in stack %}
+<li>{{s.languages}}</li>
+{% endfor %}
