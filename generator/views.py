@@ -50,6 +50,7 @@ def AddPreset(request):
     
 
 class presetDetail(generic.DetailView):
+    model = Presets
     template_name = 'generator/details.html'
     context_object_name = 'display_preset'
 
