@@ -1,5 +1,14 @@
 <form action="" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    {{formset.as_p}}
+        {% csrf_token %}
+    
+        {{ form.as_p }}
+    
+        {{ formset.management_form }}
+        
+        {% for stackform in formset %}
+            {{ stackform.as_p }}
+        {% endfor %}
+    
+    
+    <input type="submit" value="Submit">
 </form>
