@@ -1,2 +1,3 @@
-__pycache__/
+generator/__pycache__
+devvault/__pycache__
 *.pyc
