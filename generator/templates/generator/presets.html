@@ -1,9 +1,17 @@
 {% if latest_preset_list %}
     <ul>
         {% for presets in latest_preset_list %}
-        <li>{{presets.name}}</li>
+        <li>
+            <a href="{% url 'generator:detailPreset' presets.pk %}">
+                {{presets.name}}</li>
+            </a>
         {% endfor %}
     </ul>
 {% else %}
     <p> no presets available </p>
 {% endif %}
+
+<a href="{% url 'generator:addpreset'%}">
+    <button type="button">Create New Preset</button>
+</a>
+

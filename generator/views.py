@@ -4,13 +4,13 @@ from .models import Presets, Stack
 from .forms import presetForm, stackForm
 from django.http import request
 from django.forms import inlineformset_factory
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 # Create your views here.
 
-stackFormSet = inlineformset_factory(Presets, Stack,form=stackForm, extra=1)
+stackFormSet = inlineformset_factory(Presets, Stack,form=stackForm, extra=1, can_delete=False)
 
 class ListPresets(generic.ListView):
     template_name = "generator/presets.html"
@@ -39,17 +39,21 @@ def AddPreset(request):
             parent_obj = form.save()
             formset.instance = parent_obj
             formset.save()
-            return HttpResponseRedirect(reverse("all done"))
+            return redirect('generator:detailPreset', pk=parent_obj.pk)
+
         
     else:
         form = presetForm()
-        formset = stackForm()
+        formset = stackFormSet()
 
         context = {"form" : form, "formset" : formset}
         return render(request, 'generator/addpresets.html', context)
     
+    return render(request, "generator/addpresets.html", {"form": form, "formset": formset})
+    
 
 class presetDetail(generic.DetailView):
+    model = Presets
     template_name = 'generator/details.html'
     context_object_name = 'display_preset'
 
@@ -59,5 +63,28 @@ class presetDetail(generic.DetailView):
         return context
 
     
+
+def presetUpdate(request, pk):
+
+    p_obj = get_object_or_404(Presets, pk=pk)
+
+    if request.method == 'POST':
+        form = presetForm(request.POST, instance=p_obj)
+        formset = stackFormSet(request.POST,instance=p_obj)
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.instance = p_obj
+            formset.save()
+            return redirect('generator:detailPreset', pk=p_obj.pk)
+
+    if request.method == 'GET':
+        form = presetForm(instance=p_obj)
+        formset = stackFormSet(instance=p_obj)
+
+        context = {'form' : form, 'formset' : formset}
+
+        return render(request, 'generator/updatePreset.html', context)
+
+    return redirect('generator:detailPreset', pk=p_obj.pk)
 
 
