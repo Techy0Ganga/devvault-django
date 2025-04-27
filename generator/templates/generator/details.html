@@ -11,3 +11,5 @@
 {% for s in stacks %}
 <p>{{s.languages}}</p>
 {% endfor %}
+
+<a href="{% url 'generator:updatePreset' display_preset.pk%}"><button type="submit">Update Preset</button></a>

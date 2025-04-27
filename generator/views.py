@@ -64,4 +64,27 @@ class presetDetail(generic.DetailView):
 
     
 
+def presetUpdate(request, pk):
+
+    p_obj = get_object_or_404(Presets, pk=pk)
+
+    if request.method == 'POST':
+        form = presetForm(request.POST, instance=p_obj)
+        formset = stackFormSet(request.POST,instance=p_obj)
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.instance = p_obj
+            formset.save()
+            return redirect('generator:detailPreset', pk=p_obj.pk)
+
+    if request.method == 'GET':
+        form = presetForm(instance=p_obj)
+        formset = stackFormSet(instance=p_obj)
+
+        context = {'form' : form, 'formset' : formset}
+
+        return render(request, 'generator/updatePreset.html', context)
+
+    return redirect('generator:detailPreset', pk=p_obj.pk)
+
 
