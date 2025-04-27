@@ -1,0 +1,8 @@
+<h1>ARE YOU SURE???</h1>
+
+<form action="" method="post">
+    {%csrf_token%}
+    <input type="submit" value="yes">
+</form>
+
+<a href="{% url 'generator:detailPreset' obj.pk%}"><button>no</button></a>
