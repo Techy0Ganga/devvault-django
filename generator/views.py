@@ -88,3 +88,17 @@ def presetUpdate(request, pk):
     return redirect('generator:detailPreset', pk=p_obj.pk)
 
 
+def presetDelete(request, pk):
+
+    p_obj = get_object_or_404(Presets, pk=pk)
+
+    if request.method == 'POST':
+
+        p_obj.delete()
+        return redirect("generator:presetlist")
+    
+    if request.method == 'GET':
+
+        return render(request, 'generator/deleteConfirm.html', {'obj' : p_obj})
+
+    return redirect('generator:detailPreset', pk=p_obj.pk)
